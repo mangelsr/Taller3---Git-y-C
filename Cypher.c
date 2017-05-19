@@ -1,5 +1,5 @@
 #include<stdio.h>
-#define MAX 10000
+#define MAX 1000
 //IMPORTANTE: Revisar tabla assci
 //se puede usar la libreria string.h
 /*
@@ -10,7 +10,9 @@ a: 97
 z: 122
 */
 
-int cifrar(int mensaje, int llave);
+void cifrar(char mensaje[], int llave);
+void leerMensaje(char mensaje[]);
+void mostrarMensaje(char mensaje[]);
 
 int main(int argc, char **argv){
 	char mensaje[MAX];
@@ -19,17 +21,72 @@ int main(int argc, char **argv){
 	printf("Cifrado ciclico\n");
 
 	printf("Ingrese el mensaje a cifrar: ");
-	scanf("%s",mensaje);
+	leerMensaje(mensaje);
 
-	printf("\nIngrese la llave numerica: ");
+	printf("Ingrese la llave numerica: ");
 	scanf("%d", &llave);
 
-	printf("\n\n[1]: %c\n", mensaje[0]);
+	cifrar(mensaje,llave);
 
-	printf("\nMensaje cifrado: \n\n");
+	printf("\nMensaje cifrado: ");
+	mostrarMensaje(mensaje);
+
 	return 0;
 }
 
-int cifrar(int mensaje,int llave){
-	return (putchar(mensaje+llave));
+void leerMensaje(char mensaje[]){
+	int i=0;
+	char c;
+	while ((c=getchar())!='\n'){
+			mensaje[i]=c;
+			i++;
+	}
+	mensaje[i]='\0';
+}
+
+void mostrarMensaje(char mensaje[]){
+	int i=0;
+	while (mensaje[i]!='\0'){
+		printf("%c", mensaje[i]);
+		i++;
+	}
+	printf("\n\n");
+}
+
+void cifrar(char mensaje[],int llave){
+	for (int i=0; i<MAX-1; i++){ //recorre el arreglo de caracteres
+		int caracter = (int)mensaje[i];
+		if (caracter!='\0'){ //verifica que no sea el ultimo caracter
+			if ((caracter>=65 && caracter<=90) || (caracter>=97 && caracter<=122)){
+				int suma = caracter + llave;
+				if (llave>0){ //para llaves positivas
+					if (caracter>=65 && caracter<=90){ //verifica rango de mayusculas
+							if (suma > 90)
+								caracter = 64 + (suma-90);
+							else
+								caracter += llave;
+					}else{ //rango de minusculas
+							if (suma > 122)
+								caracter = 96 + (suma-122);
+							else
+								caracter += llave;
+					}
+				}else{ //para llaves negativas
+					if (caracter>=65 && caracter<=90){ //rango de mayusculas
+							if (suma < 65)
+								caracter = 91 + (suma-65);
+							else
+								caracter += llave;
+					}else{ //rango de minusculas
+							if (suma < 97)
+								caracter = 123 + (suma-97);
+							else
+								caracter += llave;
+					}
+				}
+				mensaje[i]=caracter;
+			}
+		}else
+			break;
+	} //cierre for
 }

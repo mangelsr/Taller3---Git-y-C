@@ -1,5 +1,5 @@
 #include<stdio.h>
-
+#define MAX 10000
 //IMPORTANTE: Revisar tabla assci
 //se puede usar la libreria string.h
 /*
@@ -10,14 +10,26 @@ a: 97
 z: 122
 */
 
+int cifrar(int mensaje, int llave);
+
 int main(int argc, char **argv){
-	printf("Cifrado ciclico");
+	char mensaje[MAX];
+	int llave;
+
+	printf("Cifrado ciclico\n");
+
 	printf("Ingrese el mensaje a cifrar: ");
-	printf("Ingrese la llave numerica: ")
-	printf("Mensaje cifrado: ")
+	scanf("%s",mensaje);
+
+	printf("\nIngrese la llave numerica: ");
+	scanf("%d", &llave);
+
+	printf("\n\n[1]: %c\n", mensaje[0]);
+
+	printf("\nMensaje cifrado: \n\n");
 	return 0;
 }
 
-char cifrar(char mensaje,int llave){
-	
+int cifrar(int mensaje,int llave){
+	return (putchar(mensaje+llave));
 }

@@ -24,12 +24,20 @@ int main(int argc, char **argv){
 	leerMensaje(mensaje);
 
 	printf("Ingrese la llave numerica: ");
-	scanf("%d", &llave);
 
-	cifrar(mensaje,llave);
+	if (scanf("%d", &llave)==0){
+		printf("Solo puede ingresar numeros\n\n");
+	}else{
+		while (llave>=26 || llave<=-26){
+			printf("Valor de llave no valido, por favor ingrese nuevamente: "); //validar rango entre -25 y 25
+			scanf("%d", &llave);
+		}
 
-	printf("\nMensaje cifrado: ");
-	mostrarMensaje(mensaje);
+		cifrar(mensaje,llave);
+
+		printf("\nMensaje cifrado: ");
+		mostrarMensaje(mensaje);
+	}
 
 	return 0;
 }

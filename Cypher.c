@@ -1,4 +1,5 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 #define MAX 1000
 //IMPORTANTE: Revisar tabla assci
 //se puede usar la libreria string.h
@@ -13,33 +14,56 @@ z: 122
 void cifrar(char mensaje[], int llave);
 void leerMensaje(char mensaje[]);
 void mostrarMensaje(char mensaje[]);
+//void leerArgumentos(char mensaje[], int argc, char **argv);
 
 int main(int argc, char **argv){
 	char mensaje[MAX];
 	int llave;
 
-	printf("Cifrado ciclico\n");
+	if (argc > 1){
 
-	printf("Ingrese el mensaje a cifrar: ");
-	leerMensaje(mensaje);
+		int i=0;
 
-	printf("Ingrese la llave numerica: ");
+		for (int j=1; j<argc-1;j++){
+			mensaje[i]=argv[j];
+			i++;
+			}
+			
+		mensaje[i]='\0';
 
-	if (scanf("%d", &llave)==0){
-		printf("Solo puede ingresar numeros\n\n");
-	}else{
-		while (llave>=26 || llave<=-26){
-			printf("Valor de llave no valido, por favor ingrese nuevamente: "); //validar rango entre -25 y 25
-			scanf("%d", &llave);
-		}
-
-		cifrar(mensaje,llave);
+		mostrarMensaje(mensaje);
 
 		printf("\nMensaje cifrado: ");
+
 		mostrarMensaje(mensaje);
+
+
+	}
+	else{
+		printf("Cifrado ciclico\n");
+
+		printf("Ingrese el mensaje a cifrar: ");
+		leerMensaje(mensaje);
+
+		printf("Ingrese la llave numerica: ");
+
+		if (scanf("%d", &llave)==0){
+			printf("Solo puede ingresar numeros\n\n");
+		}else{
+			while (llave>=26 || llave<=-26){
+				printf("Valor de llave no valido, por favor ingrese nuevamente: "); //validar rango entre -25 y 25
+				scanf("%d", &llave);
+			}
+
+			cifrar(mensaje,llave);
+
+			printf("\nMensaje cifrado: ");
+			mostrarMensaje(mensaje);
+		}
 	}
 
 	return 0;
+
 }
 
 void leerMensaje(char mensaje[]){
@@ -51,6 +75,19 @@ void leerMensaje(char mensaje[]){
 	}
 	mensaje[i]='\0';
 }
+
+/*void leerArgumentos(char mensaje[], int argc, char **argv){
+	int i=0;
+
+	for (int j=1; j<argc-1;j++){
+		while (argv[j][i]!="\0"){
+				mensaje[i]=argv[j][i];
+				i++;
+		}
+
+	}
+		mensaje[i]='\0';
+}*/
 
 void mostrarMensaje(char mensaje[]){
 	int i=0;

@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 1000
+#define MAX 10000
 //IMPORTANTE: Revisar tabla assci
 //se puede usar la libreria string.h
 /*
@@ -14,39 +14,28 @@ z: 122
 void cifrar(char mensaje[], int llave);
 void leerMensaje(char mensaje[]);
 void mostrarMensaje(char mensaje[]);
-//void leerArgumentos(char mensaje[], int argc, char **argv);
+void leerArgumento(char mensaje[], char argv[]);
 
 int main(int argc, char **argv){
 	char mensaje[MAX];
 	int llave;
-
-	if (argc > 1){
-
-		int i=0;
-
-		for (int j=1; j<argc-1;j++){
-			mensaje[i]=argv[j];
-			i++;
-			}
-			
-		mensaje[i]='\0';
-
-		mostrarMensaje(mensaje);
-
-		printf("\nMensaje cifrado: ");
-
-		mostrarMensaje(mensaje);
-
-
+	if (argc == 3){
+		llave = atoi(argv[2]);
+		if (llave==0 || llave>=26 || llave<=-26){
+			printf("No puede ingresar ese valor de llave\n\n");
+		}
+		else{
+			leerArgumento(mensaje,argv[1]);
+			cifrar(mensaje,llave);
+			printf("\nMensaje cifrado: ");
+			mostrarMensaje(mensaje);
+		}
 	}
-	else{
+	else if (argc == 1){
 		printf("Cifrado ciclico\n");
-
 		printf("Ingrese el mensaje a cifrar: ");
 		leerMensaje(mensaje);
-
 		printf("Ingrese la llave numerica: ");
-
 		if (scanf("%d", &llave)==0){
 			printf("Solo puede ingresar numeros\n\n");
 		}else{
@@ -54,16 +43,15 @@ int main(int argc, char **argv){
 				printf("Valor de llave no valido, por favor ingrese nuevamente: "); //validar rango entre -25 y 25
 				scanf("%d", &llave);
 			}
-
 			cifrar(mensaje,llave);
-
 			printf("\nMensaje cifrado: ");
 			mostrarMensaje(mensaje);
 		}
 	}
-
+	else{
+		printf("No puede llamar al programa con esos parametros...\n\n");
+	}
 	return 0;
-
 }
 
 void leerMensaje(char mensaje[]){
@@ -76,18 +64,14 @@ void leerMensaje(char mensaje[]){
 	mensaje[i]='\0';
 }
 
-/*void leerArgumentos(char mensaje[], int argc, char **argv){
+void leerArgumento(char mensaje[], char argv[]){
 	int i=0;
-
-	for (int j=1; j<argc-1;j++){
-		while (argv[j][i]!="\0"){
-				mensaje[i]=argv[j][i];
-				i++;
-		}
-
+	while (argv[i]!='\0'){
+		mensaje[i]=argv[i];
+		i++;
 	}
-		mensaje[i]='\0';
-}*/
+	mensaje[i]='\0';
+}
 
 void mostrarMensaje(char mensaje[]){
 	int i=0;

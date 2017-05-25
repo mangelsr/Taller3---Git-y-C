@@ -15,20 +15,26 @@ void cifrar(char mensaje[], int llave);
 void leerMensaje(char mensaje[]);
 void mostrarMensaje(char mensaje[]);
 void leerArgumento(char mensaje[], char argv[]);
+void convertirMorse(char mensaje[],char morse[]);
 
 int main(int argc, char **argv){
 	char mensaje[MAX];
-	int llave;
+	char morse[MAX*5];
+	char llave[MAX];
+	int llaveN;
 	if (argc == 3){
-		llave = atoi(argv[2]);
-		if (llave==0 || llave>=26 || llave<=-26){
+		llaveN = atoi(argv[2]);
+		if (llaveN == 0){
 			printf("No puede ingresar ese valor de llave\n\n");
 		}
 		else{
 			leerArgumento(mensaje,argv[1]);
-			cifrar(mensaje,llave);
+			cifrar(mensaje,llaveN);
 			printf("\nMensaje cifrado: ");
 			mostrarMensaje(mensaje);
+			convertirMorse(mensaje,morse);
+			printf("\nMensaje cifrado en morse: ");
+			mostrarMensaje(morse);
 		}
 	}
 	else if (argc == 1){
@@ -36,16 +42,14 @@ int main(int argc, char **argv){
 		printf("Ingrese el mensaje a cifrar: ");
 		leerMensaje(mensaje);
 		printf("Ingrese la llave numerica: ");
-		if (scanf("%d", &llave)==0){
-			printf("Solo puede ingresar numeros\n\n");
-		}else{
-			while (llave>=26 || llave<=-26){
-				printf("Valor de llave no valido, por favor ingrese nuevamente: "); //validar rango entre -25 y 25
-				scanf("%d", &llave);
-			}
-			cifrar(mensaje,llave);
+		leerMensaje(llave);
+		llaveN = atoi(llave);
+		if (llaveN!=0){
+			cifrar(mensaje,llaveN);
 			printf("\nMensaje cifrado: ");
 			mostrarMensaje(mensaje);
+		}else{
+			printf("No puede ingresar ese valor de llave\n\n");
 		}
 	}
 	else{
@@ -83,6 +87,7 @@ void mostrarMensaje(char mensaje[]){
 }
 
 void cifrar(char mensaje[],int llave){
+	llave = llave%26;
 	for (int i=0; i<MAX-1; i++){ //recorre el arreglo de caracteres
 		int caracter = (int)mensaje[i];
 		if (caracter!='\0'){ //verifica que no sea el ultimo caracter
@@ -118,4 +123,36 @@ void cifrar(char mensaje[],int llave){
 		}else
 			break;
 	} //cierre for
+}
+
+void convertirMorse(char mensaje[],char morse[]){
+	int x=0;
+	for (int i=0; i<MAX-1; i++){
+		int caracter = (int)mensaje[i];
+		if (caracter!='\0'){
+			if (caracter=='A' || caracter=='A'){
+				morse[x]='.';
+				x++;
+				morse[x]='-';
+			}else if (caracter=='B' || caracter=='b'){
+				morse[x]='-';
+				x++;
+				morse[x]='.';
+				x++;
+				morse[x]='.';
+				x++;
+				morse[x]='.';
+			}else if (caracter==' '){
+				morse[x]='/';
+				x++;
+			}
+			x++;
+			morse[x]=' ';
+			x++;
+		}else{
+			morse[x]='\0';
+			break;
+		}
+
+	}
 }

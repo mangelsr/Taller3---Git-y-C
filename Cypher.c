@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAX 100
+#define MAX 10000
 //IMPORTANTE: Revisar tabla assci
 //se puede usar la libreria string.h
 /*
@@ -21,7 +21,7 @@ void mostrarMorse(char** morse);
 
 int main(int argc, char** argv){
 	char mensaje[MAX] = {'\0'};
-	char** morse;
+	char* morse[MAX];
 	char llave[MAX] = {'\0'};
 	int llaveN = 0;
 	if (argc == 3){
@@ -50,6 +50,9 @@ int main(int argc, char** argv){
 			cifrar(mensaje,llaveN);
 			printf("\nMensaje cifrado: ");
 			mostrarMensaje(mensaje);
+			convertirMorse(mensaje,morse);
+			printf("\nMensaje cifrado en morse: ");
+			mostrarMorse(morse);
 		}else{
 			printf("No puede ingresar ese valor de llave\n\n");
 		}
@@ -129,75 +132,77 @@ void cifrar(char* mensaje,int llave){
 
 void convertirMorse(char* mensaje,char** morse){
 	int i = 0;
-	while (mensaje[i]!='/0'){
+	while (mensaje[i]!='\0'){
 		char caracter = mensaje[i];
 		if (caracter=='A' || caracter=='a')
-			morse[i] = ".-";
+			morse[i] = ".- ";
 		else if (caracter=='B' || caracter=='b')
-			morse[i] = ".-";
+			morse[i] = "-... ";
 		else if (caracter=='C' || caracter=='c')
-			morse[i] = ".-";
+			morse[i] = "-.-. ";
 		else if (caracter=='D' || caracter=='d')
-			morse[i] = ".-";
+			morse[i] = "-.. ";
 		else if (caracter=='E' || caracter=='e')
-			morse[i] = ".-";
+			morse[i] = ". ";
 		else if (caracter=='F' || caracter=='f')
-			morse[i] = ".-";
+			morse[i] = "..-. ";
 		else if (caracter=='G' || caracter=='g')
-			morse[i] = ".-";
+			morse[i] = "--. ";
 		else if (caracter=='H' || caracter=='h')
-			morse[i] = ".-";
+			morse[i] = ".... ";
 		else if (caracter=='I' || caracter=='i')
-			morse[i] = ".-";
+			morse[i] = ".. ";
 		else if (caracter=='J' || caracter=='j')
-			morse[i] = ".-";
+			morse[i] = ".--- ";
 		else if (caracter=='K' || caracter=='k')
-			morse[i] = ".-";
+			morse[i] = "-.- ";
 		else if (caracter=='L' || caracter=='l')
-			morse[i] = ".-";
+			morse[i] = ".-.. ";
 		else if (caracter=='M' || caracter=='m')
-			morse[i] = ".-";
+			morse[i] = "-- ";
 		else if (caracter=='N' || caracter=='n')
-			morse[i] = ".-";
+			morse[i] = "-. ";
 		else if (caracter=='O' || caracter=='o')
-			morse[i] = ".-";
+			morse[i] = "--- ";
 		else if (caracter=='P' || caracter=='p')
-			morse[i] = ".-";
+			morse[i] = ".--. ";
 		else if (caracter=='Q' || caracter=='q')
-			morse[i] = ".-";
+			morse[i] = "--.- ";
 		else if (caracter=='R' || caracter=='r')
-			morse[i] = ".-";
+			morse[i] = ".-. ";
 		else if (caracter=='S' || caracter=='s')
-			morse[i] = ".-";
+			morse[i] = "... ";
 		else if (caracter=='T' || caracter=='t')
-			morse[i] = ".-";
+			morse[i] = "- ";
 		else if (caracter=='U' || caracter=='u')
-			morse[i] = ".-";
+			morse[i] = "..- ";
 		else if (caracter=='V' || caracter=='v')
-			morse[i] = ".-";
+			morse[i] = "...- ";
 		else if (caracter=='W' || caracter=='w')
-			morse[i] = ".-";
+			morse[i] = ".-- ";
 		else if (caracter=='X' || caracter=='x')
-			morse[i] = ".-";
+			morse[i] = "-..- ";
 		else if (caracter=='Y' || caracter=='y')
-			morse[i] = ".-";
+			morse[i] = "-.-- ";
 		else if (caracter=='Z' || caracter=='z')
-			morse[i] = ".-";
+			morse[i] = "--.. ";
 		else if (caracter==' ')
-			morse[i] = "/";
-		else
-			morse[i] = caracter;
-		i++;
-		morse[i] = " ";
+			morse[i] = "/ ";
+		else{
+			char c[3] = {(char)caracter,' ','\0'};
+			morse[i] = c;
+			//strcpy(morse[i],(char [3]){(char)caracter,' ','\0'});
+		}
 		i++;
 	}
-
+	morse[i] = NULL;
 }
 
 void mostrarMorse(char** morse){
-	/*int c=0;
-	while (morse[c]!='/0'){
+	int c=0;
+	while (morse[c]) {
 		printf("%s", morse[c]);
-	}*/
-	printf("%s", morse[0]);
+		c++;
+	}
+	printf("\n\n");
 }
